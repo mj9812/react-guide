@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Radium from 'radium'
 import './App.css';
 import Person from './Person/Person'
 import UserInput from './Person/UserInput'
@@ -8,12 +9,13 @@ import Ticker from './Person/Ticker'
 class App extends Component {
   state = {
     persons: [
-      {name: 'Michigan', age: 24},
-      {name: 'Philadel', age: 34},
-      {name: 'Galadel', age: 41}
-    ], 
+      { name: 'Michigan', age: 24 },
+      { name: 'Philadel', age: 34 },
+      { name: 'Galadel', age: 41 }
+    ],
     userName: 'McLaren',
-    timeval: new Date().toLocaleTimeString()
+    timeval: new Date().toLocaleTimeString(),
+    showPersons: false
   }
 
   render() {
@@ -23,18 +25,24 @@ class App extends Component {
       margin: '0 10px'
     };
 
+    let persons = null;
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          { this.state.persons.map( (per,index) => <Person key={index} name={per.name} age={per.age} /> ) }
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>Hi, I'm a React New App...</h1>
         <Ticker timeval={this.state.timeval} />
-        <button style={styler} onClick={this.switchNameHandler.bind(this, 'New York')}>Switch Name</button>
+        <button style={styler} onClick={this.showPersonsHandler}>Show Persons</button>
         <button style={styler} onClick={this.componentWillUnmount.bind(this)}>Stop Clock</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} 
-        clicker={this.switchNameHandler.bind(this, 'Washington')}/>
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>My Hobbies : Dancing, Racing...</Person>
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
-        <UserInput username={this.state.userName} changed={this.manipUser}/>
-        <UserOutput username={this.state.userName}/>
+        {persons}
+        <UserInput username={this.state.userName} changed={this.manipUser} />
+        <UserOutput username={this.state.userName} />
       </div>
     );
   }
@@ -48,18 +56,24 @@ class App extends Component {
   }
 
   updateTicker = () => {
-    this.setState({timeval: new Date().toLocaleTimeString()})
+    this.setState({ timeval: new Date().toLocaleTimeString() })
   }
 
   switchNameHandler = (newName) => {
     this.setState({
-      persons: [{name: newName, age: 35},{name: 'Philadel', age: 34},{name: 'Galadel', age: 41}]
+      persons: [{ name: newName, age: 35 }, { name: 'Philadel', age: 34 }, { name: 'Galadel', age: 41 }]
     })
   }
 
+  showPersonsHandler = (event) => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+    event.target.textContent = doesShow ? 'Show Persons' : 'Hide Persons';
+  }
+
   manipUser = (event) => {
-    this.setState({userName: event.target.value})
+    this.setState({ userName: event.target.value })
   }
 }
 
-export default App;
+export default Radium(App);
