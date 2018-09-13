@@ -5,7 +5,7 @@ const ticker = (props) => {
     return (
         <div className="Ticker">
             <h3>It is {props.timeval}.</h3>
-        </div>)
+        </div>);
 };
 
 export default ticker;

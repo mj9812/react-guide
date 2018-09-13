@@ -9,9 +9,10 @@ const useroutput = (props) => {
     return (
     <div className="Person">
         <p style={stylt}>User Name : {props.username}</p>
+        Change User Name : <input type="text" onChange={props.changed} value={props.username} />
         <p>This is First Paragraph. It tells you about nothing.</p>
         <p>This is Second Paragraph. It tells you about double nothing.</p>
-    </div>)
+    </div>);
 };
 
 export default useroutput;
