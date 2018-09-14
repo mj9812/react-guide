@@ -4,7 +4,7 @@ import './Ticker.css'
 const ticker = (props) => {
     return (
         <div className="Ticker">
-            <h3>It is {props.timeval}.</h3>
+            <h3 id='TimerTicker'>{'It is ' + new Date().toLocaleTimeString()}</h3>
         </div>);
 };
 

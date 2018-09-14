@@ -14,7 +14,6 @@ class App extends Component {
       { name: 'Michigan', age: 44 }, { name: 'Arizona', age: 34 }, { name: 'Mexico', age: 21 },
       { name: 'Tenchan', age: 75 }, { name: 'Hawai', age: 82 }, { name: 'Guatimala', age: 38 }],
     userName: 'McLaren',
-    timeval: new Date().toLocaleTimeString(),
     showPersons: true,
     startClock: false
   };
@@ -23,23 +22,27 @@ class App extends Component {
     return (<div className="App">
       <Cockpit showPersons={this.state.showPersons} showPersonsHandler={this.showPersonsHandler}
         startClock={this.state.startClock} handleClock={this.handleClock} testVal={this.testVal} />
-      <Ticker timeval={this.state.timeval} />
-      <Persons showp={this.state.showPersons} persns={this.state.persons} delPersonHandler={this.delPersonHandler} />
+      <Ticker />
+      <Persons showp={this.state.showPersons} persns={this.state.persons} handler={this.delPersonHandler} />
       <UserOutput username={this.state.userName} changed={this.manipUser} />
     </div>);
   }
 
+  updateTicker() {
+    this.timeVal = setInterval(() => document.getElementById('TimerTicker').textContent ='It is ' + new Date().toLocaleTimeString(), 1000);
+  }
+
   componentDidMount() {
-    this.timerID = setInterval(() => this.setState({ timeval: new Date().toLocaleTimeString() }), 1000);
+    this.updateTicker();
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    clearInterval(this.timeVal);
   }
 
   handleClock = () => {
     const strtClock = this.state.startClock;
-    if (strtClock) this.componentDidMount(); else this.componentWillUnmount();
+    if (strtClock) this.updateTicker(); else clearInterval(this.timeVal);
     this.setState({ startClock: !strtClock });
   }
 

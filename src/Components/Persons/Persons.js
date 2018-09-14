@@ -6,7 +6,7 @@ const persons = (props) => {
         return '';
     else
         return props.persns.map((persn, index) => <Person
-            clicker={() => props.delPersonHandler(index)} key={index} name={persn.name} age={persn.age} />);
+            clicker={() => props.handler(index)} key={index} name={persn.name} age={persn.age} />);
 }
 
 export default persons;
